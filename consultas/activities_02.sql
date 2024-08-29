@@ -24,7 +24,7 @@ WHERE
 GROUP BY 
     t2.customer_state
 ORDER BY
-    SUM(t3.price) / COUNT(DISTINCT t1.customer_id) DESC
+    SUM(t3.price) / COUNT(DISTINCT t1.customer_id) DESC;
 
 ---------------------------------------------------
 
@@ -54,14 +54,9 @@ WHERE
 GROUP BY 
     t2.seller_state
 ORDER BY
-    SUM(t1.price) DESC
+    SUM(t1.price) DESC;
 
 ---------------------------------------------------
-
-select * from tb_products -- peso product_weight_g (ta em gramas)
-select * from tb_sellers -- sellers e uf_estado
-select * from tb_orders -- status do pedido e ano
-select * from tb_order_items -- order_id e seller_id
 
 /*
 Qual o peso médio dos produtos vendidos por sellers de cada estado?
@@ -69,9 +64,9 @@ Considere apenas o ano de 2017 e pedidos entregues nesta análise.
 */
 
 SELECT
-    DISTINCT t2.seller_id AS vendedor,
-    ROUND(AVG(t4.product_weight_g), 2) AS avg_peso_produtos,
-    t2.seller_state
+    t2.seller_state AS sellers_uf,
+    ROUND(AVG(t4.product_weight_g), 2) 
+    AS avg_peso_produto
 FROM
     tb_order_items AS t1
 LEFT JOIN
@@ -87,6 +82,6 @@ WHERE
     t3.order_status = 'delivered'
     AND CAST(strftime('%Y', t3.order_approved_at) AS INT) = 2017
 GROUP BY 
-    t2.seller_id
+    t2.seller_state
 ORDER BY
-    AVG(t4.product_weight_g) DESC
+    AVG(t4.product_weight_g) DESC;
