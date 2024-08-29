@@ -34,9 +34,13 @@ Considere a base completa, com apenas pedidos entregues
 */
 
 SELECT
-    DISTINCT t2.seller_id AS vendedor,
-    ROUND(SUM(t1.freight_value + t1.price), 2) AS receira_por_vendedor,
-    t2.seller_state
+    t2.seller_state,
+    ROUND(SUM(t1.price), 2) 
+    AS receira_total_sellers,
+    ROUND(SUM(t1.price) / COUNT(DISTINCT t2.seller_id), 2) 
+    AS avg_receita_sellers,
+    COUNT(DISTINCT t2.seller_id) 
+    AS qtde_sellers
 FROM
     tb_order_items AS t1
 LEFT JOIN
@@ -48,9 +52,9 @@ LEFT JOIN
 WHERE
     t3.order_status = 'delivered'
 GROUP BY 
-    t2.seller_id
+    t2.seller_state
 ORDER BY
-    SUM(t1.freight_value + t1.price) DESC
+    SUM(t1.price) DESC
 
 ---------------------------------------------------
 
