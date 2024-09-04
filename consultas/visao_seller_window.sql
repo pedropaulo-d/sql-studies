@@ -33,4 +33,4 @@ select seller_id,
 
 from tb_seller_sort
 
-where order_qtde = 1
+where order_qtde <= 5
